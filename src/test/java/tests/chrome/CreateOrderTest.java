@@ -1,6 +1,7 @@
 package tests.chrome;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,12 +10,14 @@ import pages.OrderPageFirst;
 import pages.OrderPageSecond;
 import pages.SamokatMainPage;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 public class CreateOrderTest {
 
     private WebDriver driver;
 
     @Test
-    public void e2eCreationOrderTest() throws InterruptedException {
+    public void e2eCreationOrderTest()  {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
@@ -23,7 +26,6 @@ public class CreateOrderTest {
         SamokatMainPage samokatMainPage = new SamokatMainPage(driver);
         samokatMainPage.cookieAcceptClick();
         samokatMainPage.headerOrderBtnClick();
-        Thread.sleep(3000);
         OrderPageFirst orderPageFirst = new OrderPageFirst(driver);
         orderPageFirst.setNameToFieldNameOrderPage("Вася");
         orderPageFirst.setSurnameToFieldSurnameOrderPage("Пупкин");
@@ -40,7 +42,8 @@ public class CreateOrderTest {
         orderPageSecond.setOrderPageCommentCourier("Очень жду!!!");
         orderPageSecond.orderPageCreateOrderBtnClick();
         orderPageSecond.orderPageConfirmOrderBtnClick();
-        Thread.sleep(3000);
+        String actualResult = orderPageSecond.orderPageOrderSuccessGetText();
+        Assert.assertThat(actualResult, containsString("Заказ оформлен"));
         driver.quit();
     }
 

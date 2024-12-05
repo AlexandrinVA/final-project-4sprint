@@ -17,7 +17,7 @@ public class SamokatTest {
      private WebDriver driver;
 
     @Test
-    public void checkOpenOrderPageFromHeaderOrderBtn() throws InterruptedException {
+    public void checkOpenOrderPageFromHeaderOrderBtn()  {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
@@ -26,12 +26,11 @@ public class SamokatTest {
         SamokatMainPage samokatMainPage = new SamokatMainPage(driver);
         samokatMainPage.cookieAcceptClick();
         samokatMainPage.headerOrderBtnClick();
-        Thread.sleep(1000);
         driver.quit();
     }
 
     @Test
-    public void checkOpenOrderPageFromPageOrderBtn() throws InterruptedException {
+    public void checkOpenOrderPageFromPageOrderBtn()  {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
@@ -40,7 +39,6 @@ public class SamokatTest {
         SamokatMainPage samokatMainPage = new SamokatMainPage(driver);
         samokatMainPage.cookieAcceptClick();
         samokatMainPage.finishOrderBtnClick();
-        Thread.sleep(1000);
         driver.quit();
 
 }
