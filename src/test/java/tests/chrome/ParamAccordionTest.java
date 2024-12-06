@@ -40,7 +40,7 @@ public class ParamAccordionTest {
     private WebDriver driver;
 
     @Test
-    public void checkTextFromDropDownFAQ() throws InterruptedException {
+    public void checkTextFromDropDownFAQ()  {
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
@@ -52,7 +52,6 @@ public class ParamAccordionTest {
         WebElement element = driver.findElement(By.id("accordion__heading-0"));
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
         driver.findElement(By.xpath(locator)).click();
-        Thread.sleep(500);
         String result = driver.findElement(By.xpath(actualResult)).getText();
         assertEquals(result,expectedResult);
         driver.quit();
