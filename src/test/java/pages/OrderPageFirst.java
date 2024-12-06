@@ -34,9 +34,9 @@ public class OrderPageFirst {
         driver.findElement(orderPageNameField).sendKeys(name);
     }
 
-    public void setSurnameToFieldSurnameOrderPage(String Surname) {
+    public void setSurnameToFieldSurnameOrderPage(String surname) {
         driver.findElement(orderPageSurnameField).clear();
-        driver.findElement(orderPageSurnameField).sendKeys(Surname);
+        driver.findElement(orderPageSurnameField).sendKeys(surname);
     }
 
     public void setOrderPageDeliveryAddressToFieldDeliveryAddressOrderPage(String text) {
