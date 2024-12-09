@@ -14,24 +14,35 @@ import pages.SamokatMainPage;
 
 import static org.junit.Assert.assertEquals;
 
+
+
 @RunWith(Parameterized.class)
 public class ParamAccordionTest {
 
     private final String actualResult;
     private final String expectedResult;
     private final String locator;
+    private final String waitLocator;
 
-    public ParamAccordionTest(String locator,String actualResult, String expectedResult){
+    public ParamAccordionTest(String locator, String waitLocator, String actualResult, String expectedResult){
         this.locator = locator;
+        this.waitLocator = waitLocator;
         this.actualResult = actualResult;
         this.expectedResult = expectedResult;
     }
 
+
     @Parameterized.Parameters
     public static Object[][] getTextData() {
         return new Object[][] {
-                {".//div[@id='accordion__heading-0']",".//div[@id='accordion__panel-0']/p", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
-                {".//div[@id='accordion__heading-1']",".//div[@id='accordion__panel-1']/p", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."}
+                {SamokatMainPage.accordionLocatorOne, SamokatMainPage.accordionLocatorTextOne, SamokatMainPage.accordionLocatorTextOne, SamokatMainPage.accordionLocatorExpTextOne},
+                {SamokatMainPage.accordionLocatorTwo, SamokatMainPage.accordionLocatorTextTwo, SamokatMainPage.accordionLocatorTextTwo, SamokatMainPage.accordionLocatorExpTextTwo},
+                {SamokatMainPage.accordionLocatorThree, SamokatMainPage.accordionLocatorTextThree, SamokatMainPage.accordionLocatorTextThree, SamokatMainPage.accordionLocatorExpTextThree},
+                {SamokatMainPage.accordionLocatorFour, SamokatMainPage.accordionLocatorTextFour, SamokatMainPage.accordionLocatorTextFour, SamokatMainPage.accordionLocatorExpTextFour},
+                {SamokatMainPage.accordionLocatorFive, SamokatMainPage.accordionLocatorTextFive, SamokatMainPage.accordionLocatorTextFive, SamokatMainPage.accordionLocatorExpTextFive},
+                {SamokatMainPage.accordionLocatorSix, SamokatMainPage.accordionLocatorTextSix, SamokatMainPage.accordionLocatorTextSix, SamokatMainPage.accordionLocatorExpTextSix},
+                {SamokatMainPage.accordionLocatorSeven, SamokatMainPage.accordionLocatorTextSeven, SamokatMainPage.accordionLocatorTextSeven, SamokatMainPage.accordionLocatorExpTextSeven},
+                {SamokatMainPage.accordionLocatorEight, SamokatMainPage.accordionLocatorTextEight, SamokatMainPage.accordionLocatorTextEight, SamokatMainPage.accordionLocatorExpTextEight}
 
         };
     }
@@ -49,11 +60,12 @@ public class ParamAccordionTest {
         driver.get("https://qa-scooter.praktikum-services.ru/");
         SamokatMainPage samokatMainPage = new SamokatMainPage(driver);
         samokatMainPage.cookieAcceptClick();
-        WebElement element = driver.findElement(By.id("accordion__heading-0"));
+        WebElement element = samokatMainPage.btnDropDownHowPriceHowPayFAQ();
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
-        driver.findElement(By.xpath(locator)).click();
+        driver.findElement(By.id(locator)).click();
+        SamokatMainPage.waitForChangedActivity(waitLocator);
         String result = driver.findElement(By.xpath(actualResult)).getText();
-        assertEquals(result,expectedResult);
+        assertEquals(expectedResult, result);
         driver.quit();
     }
 
