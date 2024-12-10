@@ -48,6 +48,9 @@ public class OrderPageSecond {
     public void orderPageSamokatColourBlackCheckboxClick() {
         driver.findElement(orderPageSamokatColourBlackCheckbox).click();
     }
+    public void orderPageSamokatColourGreyCheckboxClick() {
+        driver.findElement(orderPageSamokatColourGreyCheckbox).click();
+    }
 
     public void setOrderPageCommentCourier(String text) {
         driver.findElement(orderPageCommentCourier).clear();
