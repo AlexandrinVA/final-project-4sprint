@@ -1,0 +1,72 @@
+package tests.chrome;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import pages.SamokatMainPage;
+
+import static org.junit.Assert.assertEquals;
+
+
+
+@RunWith(Parameterized.class)
+public class ParamAccordionTest {
+
+    private final String actualResult;
+    private final String expectedResult;
+    private final String locator;
+    private final String waitLocator;
+
+    public ParamAccordionTest(String locator, String waitLocator, String actualResult, String expectedResult){
+        this.locator = locator;
+        this.waitLocator = waitLocator;
+        this.actualResult = actualResult;
+        this.expectedResult = expectedResult;
+    }
+
+
+    @Parameterized.Parameters
+    public static Object[][] getTextData() {
+        return new Object[][] {
+                {SamokatMainPage.accordionLocatorOne, SamokatMainPage.accordionLocatorTextOne, SamokatMainPage.accordionLocatorTextOne, SamokatMainPage.accordionLocatorExpTextOne},
+                {SamokatMainPage.accordionLocatorTwo, SamokatMainPage.accordionLocatorTextTwo, SamokatMainPage.accordionLocatorTextTwo, SamokatMainPage.accordionLocatorExpTextTwo},
+                {SamokatMainPage.accordionLocatorThree, SamokatMainPage.accordionLocatorTextThree, SamokatMainPage.accordionLocatorTextThree, SamokatMainPage.accordionLocatorExpTextThree},
+                {SamokatMainPage.accordionLocatorFour, SamokatMainPage.accordionLocatorTextFour, SamokatMainPage.accordionLocatorTextFour, SamokatMainPage.accordionLocatorExpTextFour},
+                {SamokatMainPage.accordionLocatorFive, SamokatMainPage.accordionLocatorTextFive, SamokatMainPage.accordionLocatorTextFive, SamokatMainPage.accordionLocatorExpTextFive},
+                {SamokatMainPage.accordionLocatorSix, SamokatMainPage.accordionLocatorTextSix, SamokatMainPage.accordionLocatorTextSix, SamokatMainPage.accordionLocatorExpTextSix},
+                {SamokatMainPage.accordionLocatorSeven, SamokatMainPage.accordionLocatorTextSeven, SamokatMainPage.accordionLocatorTextSeven, SamokatMainPage.accordionLocatorExpTextSeven},
+                {SamokatMainPage.accordionLocatorEight, SamokatMainPage.accordionLocatorTextEight, SamokatMainPage.accordionLocatorTextEight, SamokatMainPage.accordionLocatorExpTextEight}
+
+        };
+    }
+
+
+    private WebDriver driver;
+
+    @Test
+    public void checkTextFromDropDownFAQ()  {
+
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        driver = new ChromeDriver(options);
+        driver.get("https://qa-scooter.praktikum-services.ru/");
+        SamokatMainPage samokatMainPage = new SamokatMainPage(driver);
+        samokatMainPage.cookieAcceptClick();
+        WebElement element = samokatMainPage.btnDropDownHowPriceHowPayFAQ();
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+        driver.findElement(By.id(locator)).click();
+        SamokatMainPage.waitForChangedActivity(waitLocator);
+        String result = driver.findElement(By.xpath(actualResult)).getText();
+        assertEquals(expectedResult, result);
+        driver.quit();
+    }
+
+}
