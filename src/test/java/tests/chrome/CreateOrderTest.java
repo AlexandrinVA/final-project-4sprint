@@ -17,7 +17,7 @@ public class CreateOrderTest {
     private WebDriver driver;
 
     @Test
-    public void e2eCreationOrderTest()  {
+    public void e2eCreationOrderTestHeaderBtn()  {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
@@ -26,6 +26,37 @@ public class CreateOrderTest {
         SamokatMainPage samokatMainPage = new SamokatMainPage(driver);
         samokatMainPage.cookieAcceptClick();
         samokatMainPage.headerOrderBtnClick();
+        OrderPageFirst orderPageFirst = new OrderPageFirst(driver);
+        orderPageFirst.setNameToFieldNameOrderPage("Вася");
+        orderPageFirst.setSurnameToFieldSurnameOrderPage("Пупкин");
+        orderPageFirst.setOrderPageDeliveryAddressToFieldDeliveryAddressOrderPage("На красную площадь");
+        orderPageFirst.orderPageMetroStationDropDownClick();
+        orderPageFirst.orderPageMetroStationKomsomolskayaClick();
+        orderPageFirst.setOrderPagePhoneNumberField("88005553535");
+        orderPageFirst.orderPageNextStepBtnClick();
+        OrderPageSecond orderPageSecond = new OrderPageSecond(driver);
+        orderPageSecond.setDeliveryDateToDeliveryDateField("01.01.2999");
+        orderPageSecond.orderPageRentalPeriodFieldClick();
+        orderPageSecond.orderPageRentalPeriodDropDownMenuClick();
+        orderPageSecond.orderPageSamokatColourBlackCheckboxClick();
+        orderPageSecond.setOrderPageCommentCourier("Очень жду!!!");
+        orderPageSecond.orderPageCreateOrderBtnClick();
+        orderPageSecond.orderPageConfirmOrderBtnClick();
+        String actualResult = orderPageSecond.orderPageOrderSuccessGetText();
+        Assert.assertThat(actualResult, containsString("Заказ оформлен"));
+        driver.quit();
+    }
+
+    @Test
+    public void e2eCreationOrderTestFinishBtn()  {
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        driver = new ChromeDriver(options);
+        driver.get("https://qa-scooter.praktikum-services.ru/");
+        SamokatMainPage samokatMainPage = new SamokatMainPage(driver);
+        samokatMainPage.cookieAcceptClick();
+        samokatMainPage.finishOrderBtnClick();
         OrderPageFirst orderPageFirst = new OrderPageFirst(driver);
         orderPageFirst.setNameToFieldNameOrderPage("Вася");
         orderPageFirst.setSurnameToFieldSurnameOrderPage("Пупкин");
